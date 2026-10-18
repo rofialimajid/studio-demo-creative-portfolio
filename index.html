@@ -237,18 +237,23 @@
 
     .device-wrap {
       position: relative;
-      display: grid;
-      place-items: center;
-      width: min(100%, 900px);
-      min-height: 1px;
+      display: block;
+      width: 100%;
+      height: var(--half-h);
+      flex: none;
       z-index: 1;
     }
 
     .fit {
+      position: absolute;
+      top: 50%;
+      left: 50%;
       width: calc(var(--half-w) * 2);
       height: var(--half-h);
+      margin: 0;
       flex: none;
-      transform-origin: center;
+      transform: translate(-50%, -50%) scale(1);
+      transform-origin: center center;
     }
 
     .phone {
@@ -891,6 +896,16 @@
         min-height: 500px;
       }
 
+      .device-wrap {
+        width: 100%;
+        max-width: 100vw;
+      }
+
+      .fit {
+        left: 50%;
+        transform-origin: center center;
+      }
+
       .bigname {
         font-size: clamp(68px, 20vw, 125px);
       }
@@ -1269,7 +1284,8 @@
         var availableHeight = Math.max(280, window.innerHeight - 220);
         var scale = Math.min(1, availableWidth / (halfW * 2), availableHeight / halfH);
 
-        fit.style.transform = "scale(" + scale + ")";
+        /* Center first, then scale. This keeps the flip aligned on narrow screens. */
+        fit.style.transform = "translate(-50%, -50%) scale(" + scale + ")";
       }
 
       function updateAnimation() {
